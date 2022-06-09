@@ -1,1 +1,1 @@
-# ducks-life
+# Ducks Life
