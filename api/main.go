@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/nick-ducker/ducks-life/api/controllers"
 	"github.com/nick-ducker/ducks-life/api/models"
 )
 
@@ -30,6 +31,10 @@ func main() {
 	{
 		authed.GET("/", func(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{"data": "hello world"})
+		})
+
+		authed.GET("/ramblings", func(c *gin.Context) {
+			controllers.GetRamblings(c)
 		})
 	}
 
