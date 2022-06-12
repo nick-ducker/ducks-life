@@ -37,6 +37,7 @@ func main() {
 		authed.GET("/ramblings/:id", controllers.GetRambling)
 
 		authed.POST("/ramblings", controllers.CreateRambling)
+		authed.POST("/ramblings/:id", controllers.UpdateRambling)
 	}
 
 	r.Run()
