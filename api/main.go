@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,9 +13,20 @@ func main() {
 
 	models.ConnectDatabase()
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"data": "hello world"})
-	})
+	authed := r.Group("/")
+	authed.Use(authHandler())
+	{
+		authed.GET("/", func(c *gin.Context) {
+			c.JSON(http.StatusOK, gin.H{"data": "hello world"})
+		})
+	}
 
 	r.Run()
+}
+
+func authHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		fmt.Println("YOU HIT THE MIDDLEWARE!")
+		c.Next()
+	}
 }
