@@ -33,13 +33,7 @@ func main() {
 	authed := r.Group("/")
 	authed.Use(authHandler())
 	{
-		authed.GET("/", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{"data": "hello world"})
-		})
-
-		authed.GET("/ramblings", func(c *gin.Context) {
-			controllers.GetRamblings(c)
-		})
+		authed.GET("/ramblings", controllers.GetRamblings)
 	}
 
 	r.Run()
