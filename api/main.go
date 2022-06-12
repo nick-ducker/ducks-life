@@ -1,12 +1,24 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/nick-ducker/ducks-life/api/models"
 )
+
+func init() {
+	env := os.Getenv("ENVIRONMENT")
+	if env != "production" && env != "docker" {
+		err := godotenv.Load(".env")
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
+	}
+}
 
 func main() {
 	r := gin.Default()
