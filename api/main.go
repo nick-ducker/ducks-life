@@ -26,6 +26,10 @@ func main() {
 
 	models.ConnectDatabase()
 
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"data": "pong"})
+	})
+
 	authed := r.Group("/")
 	authed.Use(authHandler())
 	{
