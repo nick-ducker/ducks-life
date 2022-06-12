@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nick-ducker/ducks-life/api/models"
@@ -26,7 +26,11 @@ func main() {
 
 func authHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		fmt.Println("YOU HIT THE MIDDLEWARE!")
-		c.Next()
+		if c.Request.Header.Get("X-API-KEY") != "" {
+			if c.Request.Header.Get("X-API-KEY") == os.Getenv("API-KEY") {
+				c.Next()
+			}
+		}
+		c.AbortWithStatus(401)
 	}
 }
