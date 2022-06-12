@@ -38,6 +38,8 @@ func main() {
 
 		authed.POST("/ramblings", controllers.CreateRambling)
 		authed.POST("/ramblings/:id", controllers.UpdateRambling)
+
+		authed.DELETE("/ramblings/:id", controllers.DeleteRambling)
 	}
 
 	r.Run()

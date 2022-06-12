@@ -66,3 +66,15 @@ func UpdateRambling(c *gin.Context) {
 	models.DB.Model(&rambling).Updates(input)
 	c.JSON(http.StatusOK, gin.H{"data": rambling})
 }
+
+func DeleteRambling(c *gin.Context) {
+	var rambling models.Rambling
+	if err := models.DB.Where("id = ?", c.Param("id")).First(&rambling).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+
+	models.DB.Delete(&rambling)
+
+	c.JSON(http.StatusOK, gin.H{"data": true})
+}
