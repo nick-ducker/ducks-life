@@ -34,6 +34,7 @@ func main() {
 	authed.Use(authHandler())
 	{
 		authed.GET("/ramblings", controllers.GetRamblings)
+		authed.GET("/ramblings/:id", controllers.GetRambling)
 	}
 
 	r.Run()
