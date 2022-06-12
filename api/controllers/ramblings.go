@@ -7,6 +7,11 @@ import (
 	"github.com/nick-ducker/ducks-life/api/models"
 )
 
+type CreateRamblingInput struct {
+	Title    string `json:"title" binding:"required"`
+	Markdown string `json:"markdown" binding:"required"`
+}
+
 func GetRamblings(c *gin.Context) {
 	var ramblings []models.Rambling
 	models.DB.Find(&ramblings)
@@ -21,6 +26,19 @@ func GetRambling(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
 	}
+
+	c.JSON(http.StatusOK, gin.H{"data": rambling})
+}
+
+func CreateRambling(c *gin.Context) {
+	var input CreateRamblingInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	rambling := models.Rambling{Title: input.Title, Markdown: input.Markdown}
+	models.DB.Create(&rambling)
 
 	c.JSON(http.StatusOK, gin.H{"data": rambling})
 }
