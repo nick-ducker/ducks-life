@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -24,10 +23,10 @@ func init() {
 func main() {
 	r := gin.Default()
 
-	models.ConnectDatabase()
+	models.ConnectDatabase(false)
 
 	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"data": "pong"})
+		c.JSON(200, gin.H{"data": "pong"})
 	})
 
 	authed := r.Group("/")
@@ -48,7 +47,7 @@ func main() {
 func authHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if c.Request.Header.Get("X-API-KEY") != "" {
-			if c.Request.Header.Get("X-API-KEY") == os.Getenv("API-KEY") {
+			if c.Request.Header.Get("X-API-KEY") == os.Getenv("API_KEY") {
 				c.Next()
 			}
 		}
